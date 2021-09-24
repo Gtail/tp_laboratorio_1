@@ -5,8 +5,8 @@
  *      Author: Gian
  */
 
-#ifndef OPERATION_H_
-#define OPERATION_H_
+#ifndef OPERACION_H_
+#define OPERACION_H_
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -83,4 +83,4 @@ void operar(int num1, int num2, int *sumatoria, int *resta, float *division, int
 /// @param num2	recibe el segundo entero para una validacion
 void mostrar(int num1, int num2,int sumatoria, int resta, float division, int multiplicacion, int factorizar, int factorizar2);
 
-#endif /* OPERATION_H_ */
+#endif /* OPERACION_H_ */

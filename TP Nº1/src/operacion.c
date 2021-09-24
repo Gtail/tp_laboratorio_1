@@ -4,9 +4,9 @@
  *  Created on: 19 sep. 2021
  *      Author: Gian
  */
+#include "operacion.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "operation.h"
 
 int menuFive (){
 int opcion;
