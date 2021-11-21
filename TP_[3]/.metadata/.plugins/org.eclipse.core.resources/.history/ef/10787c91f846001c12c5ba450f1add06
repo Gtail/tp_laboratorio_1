@@ -1,0 +1,167 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "LinkedList.h"
+#include "Employee.h"
+#include "parser.h"
+
+
+int menuTen()
+{
+	int opcion;
+
+	printf("\n Opcion 1 Cargar los datos de los empleados en Modo Texto \n");
+	printf("\n Opcion 2 Cargar los datos de los empleados en Modo Binario\n");
+	printf("\n Opcion 3 Dar de Alta un empleado \n");
+	printf("\n Opcion 4 Modificar un empleado \n");
+	printf("\n Opcion 5 Dar de Baja un empleado  \n");
+	printf("\n Opcion 6 Listar empleados \n");
+	printf("\n Opcion 7 Ordenar empleados \n");
+	printf("\n Opcion 8 Guardar los datos de los empleados en Modo Texto. \n");
+	printf("\n Opcion 9 Mostrar Resultados \n");
+	printf("\n Opcion 10 Salir \n\n");
+
+	scanf("%d", &opcion);
+
+	return opcion;
+}
+
+
+
+
+/** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
+ *
+ * \param path char*
+ * \param pArrayListEmployee LinkedList*
+ * \return int
+ *
+ */
+int controller_loadFromText(char* path , LinkedList* pArrayListEmployee)
+{
+    int retorno=-1;
+    FILE* pFile;
+
+    pFile=fopen(path,"r");
+    printf("Antes de validacion parser\n");
+
+    if(pFile!=NULL && pArrayListEmployee != NULL)
+    {
+    	ll_clear(pArrayListEmployee);
+        if(parser_EmployeeFromText(pFile , pArrayListEmployee)==0)
+        {
+            printf("No se pudo cargar el archivo \n");
+            retorno=0;
+        }
+    }
+
+    fclose(pFile);
+    return retorno;
+}
+
+/** \brief Carga los datos de los empleados desde el archivo data.csv (modo binario).
+ *
+ * \param path char*
+ * \param pArrayListEmployee LinkedList*
+ * \return int
+ *
+ */
+int controller_loadFromBinary(char* path , LinkedList* pArrayListEmployee)
+{
+	return -1;
+}
+
+/** \brief Alta de empleados
+ *
+ * \param path char*
+ * \param pArrayListEmployee LinkedList*
+ * \return int
+ *
+ */
+int controller_addEmployee(LinkedList *pArrayListEmployee) {
+	int retorno = -1;
+	//int contId=0;
+	Employee *auxEmployee=NULL;
+	int id;
+
+	if (obtenerId("last_id.txt", &id) == 0) {
+		if (pArrayListEmployee != NULL) {
+			if (addEmployee(auxEmployee, id) == 0) {
+				autoIncremental("last_id.txt");
+				retorno = 0;
+			}
+		}
+	}
+	return retorno;
+}
+
+/** \brief Modificar datos de empleado
+ *
+ * \param path char*
+ * \param pArrayListEmployee LinkedList*
+ * \return int
+ *
+ */
+int controller_editEmployee(LinkedList* pArrayListEmployee)
+{
+    return 1;
+}
+
+/** \brief Baja de empleado
+ *
+ * \param path char*
+ * \param pArrayListEmployee LinkedList*
+ * \return int
+ *
+ */
+int controller_removeEmployee(LinkedList* pArrayListEmployee)
+{
+    return 1;
+}
+
+/** \brief Listar empleados
+ *
+ * \param path char*
+ * \param pArrayListEmployee LinkedList*
+ * \return int
+ *
+ */
+int controller_ListEmployee(LinkedList* pArrayListEmployee)
+{
+    return 1;
+}
+
+/** \brief Ordenar empleados
+ *
+ * \param path char*
+ * \param pArrayListEmployee LinkedList*
+ * \return int
+ *
+ */
+int controller_sortEmployee(LinkedList* pArrayListEmployee)
+{
+    return 1;
+}
+
+/** \brief Guarda los datos de los empleados en el archivo data.csv (modo texto).
+ *
+ * \param path char*
+ * \param pArrayListEmployee LinkedList*
+ * \return int
+ *
+ */
+int controller_saveAsText(char* path , LinkedList* pArrayListEmployee)
+{
+    return 1;
+}
+
+/** \brief Guarda los datos de los empleados en el archivo data.csv (modo binario).
+ *
+ * \param path char*
+ * \param pArrayListEmployee LinkedList*
+ * \return int
+ *
+ */
+int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee)
+{
+    return 1;
+}
+

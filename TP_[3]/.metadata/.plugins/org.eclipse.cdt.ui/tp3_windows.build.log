@@ -1,0 +1,7 @@
+16:05:32 **** Incremental Build of configuration Debug for project tp3_windows ****
+Info: Internal Builder is used for build
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -o Employee.o "..\\Employee.c" 
+gcc "-LC:\\Users\\lanzo\\Desktop\\TP GIAN\\tp3_windows" -o tp3_windows.exe ".metadata\\.plugins\\org.eclipse.cdt.make.core\\specs.o" Controller.o Employee.o inputUtn.o main.o parser.o -lLinkedList 
+
+16:05:33 Build Finished. 0 errors, 0 warnings. (took 623ms)
+

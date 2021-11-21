@@ -1,0 +1,257 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "LinkedList.h"
+#include "Controller.h"
+#include "inputUtn.h"
+#include "Employee.h"
+
+
+Employee* employee_new()
+{
+	Employee* auxEmployee;
+
+	auxEmployee = (Employee*) malloc(sizeof(auxEmployee));
+/*	auxEmployee->id = 0;
+	strcpy(auxEmployee->nombre, " ");
+	auxEmployee->horasTrabajadas = 0;
+	auxEmployee->sueldo = 0;*/
+	employee_setFields(auxEmployee, 0, " ", 0, 0);
+	return auxEmployee;
+}
+
+Employee* employee_newParametros(Employee* pEmployee, char* idStr,char* nombreStr,char* horasTrabajadasStr, char* sueldoStr)
+{
+
+	int auxId;
+	int auxHoras;
+	int auxSueldo;
+
+	pEmployee=employee_new();
+
+	//if(pEmployee!=NULL && idStr!=NULL && nombreStr!=NULL && horasTrabajadasStr!=NULL && sueldoStr!= NULL)
+	//{
+		auxId=atoi(idStr);
+		auxHoras=atoi(horasTrabajadasStr);
+		auxSueldo=atoi(sueldoStr);
+	//}
+	if(employee_setFields(pEmployee, auxId, nombreStr, auxHoras, auxSueldo)!=0)
+	{
+		free(pEmployee);
+	}
+	return pEmployee;
+}
+int employee_setFields(Employee* aEmp, int auxId, char* auxNombre, int auxHoras, int auxSueldo)
+{
+	int retorno=-1;
+	int set_id;
+	int set_Nombre;
+	int set_HorasT;
+	int set_Sueldo;
+
+	if(aEmp != NULL && auxId>0 && auxNombre != NULL && auxSueldo>0 && auxHoras>0)
+	{
+		 set_id=employee_setId(aEmp,auxId);
+		 set_Nombre=employee_setNombre(aEmp,auxNombre);
+		 set_HorasT=employee_setHorasTrabajadas(aEmp,auxHoras);
+		 set_Sueldo=employee_setSueldo(aEmp, auxSueldo);
+		 printf("valor de set %d %d %d %d\n",set_id,set_Nombre,set_HorasT,set_Sueldo);
+	}
+	if(set_id==0 && set_Nombre==0 && set_HorasT==0 && set_Sueldo==0)
+	{
+		retorno=0;
+	}
+
+	return retorno;
+}
+
+int employee_getId(Employee* aEmp,int* newId)
+{
+    int retorno=-1;
+
+    if(aEmp != NULL && newId != NULL)
+    {
+        *newId= aEmp->id;
+        retorno=0;
+    }
+    return retorno;
+}
+
+
+int employee_setId(Employee* pEmp,int newId)
+{
+    int retorno=-1;
+
+    if(pEmp != NULL && newId >0)
+    {
+    	pEmp->id= newId;
+        retorno=0;
+    }
+    return retorno;
+}
+
+
+int employee_setNombre(Employee* pEmp,char* nombre)
+{
+	int retorno=-1;
+
+	if(pEmp!=NULL && nombre!=NULL)
+	{
+			retorno=0;
+			strcpy(pEmp->nombre,nombre);
+	}
+
+	return retorno;
+}
+int employee_getNombre(Employee* pEmp,char* nombre)
+{
+	int retorno=-1;
+
+	if(pEmp!=NULL && nombre!=NULL)
+	{
+		retorno=0;
+		strcpy(nombre,pEmp->nombre);
+	}
+
+	return retorno;
+}
+
+int employee_setHorasTrabajadas(Employee* pEmp,int horasTrabajadas)
+{
+	 int retorno=-1;
+
+	    if(pEmp!= NULL && horasTrabajadas>0)
+	    {
+	        retorno=0;
+	        pEmp->horasTrabajadas=horasTrabajadas;
+	    }
+	    return retorno;
+}
+
+int employee_getHorasTrabajadas(Employee* pEmp,int* horasTrabajadas)
+{
+	 int retorno=-1;
+	    if(pEmp!= NULL && horasTrabajadas != NULL)
+	    {
+	        retorno=0;
+	        *horasTrabajadas= pEmp->horasTrabajadas;
+	    }
+	    return retorno;
+}
+
+int employee_setSueldo(Employee* pEmp,int sueldo)
+{
+	int retorno;
+
+	    retorno=-1;
+	    if(pEmp != NULL && sueldo>0)
+	    {
+	       retorno=0;
+	       pEmp->sueldo= sueldo;
+	    }
+	    return retorno;
+}
+
+int employee_getSueldo(Employee* pEmp,int* sueldo)
+{
+	  int retorno=-1;
+
+
+	    if(pEmp != NULL && sueldo>0)
+	    {
+	        retorno=0;
+	        *sueldo= pEmp->sueldo;
+	    }
+	    return retorno;
+}
+
+void employee_delete(Employee *pEmp) {
+	if (pEmp != NULL) {
+		free(pEmp);
+	}
+}
+
+
+int addEmployee(Employee* pEmp,int id) {
+
+	int retorno =-1;
+	char nombre[256];
+	int salario;
+	int horas=0;
+	id=0;
+
+	if (pEmp!= NULL) {
+
+			if (getStringSoloLetras("\n Ingrese el nombre del empleado \n","\n Error, intente nuevamente ingresando SOLO letras. \n",nombre,51,2) != 1) {
+				printf("\n Error, intente nuevamente ingresando SOLO letras. \n");
+			}
+
+			getValidInt("\n Ingrese la cantidad de Horas Trabajadas \n","\n Error, intente nuevamente ingresando SOLO numeros. \n", 0, 5000);
+
+			chargeSalary(&salario, "\n Inrese el salario", "\n Error, cargue el salario nuevamente");
+
+			if(employee_setFields(pEmp, id, nombre, horas, salario)==0)
+			{
+				retorno=0;
+			}
+
+		}
+	return retorno;
+	}
+
+
+void chargeSalary(int *salario, char mensaje[], char mensajeError[]) {
+	char auxSalario[51];
+
+	printf("%s", mensaje);
+	scanf("%s", auxSalario);
+
+	while (esNumerico(auxSalario)==0) {
+		printf("%s", mensajeError);
+		scanf("%s", auxSalario);
+	}
+
+	*salario = atoi(auxSalario);
+
+}
+
+int obtenerId(char* path, int* id)
+{
+	int retorno=-1;
+	FILE* pFile;
+
+	if(path!=NULL && id!=NULL)
+	{
+		pFile=fopen(path,"r");
+		fscanf(pFile,"%d",id);
+		retorno=0;
+	}
+	fclose(pFile);
+	return retorno;
+}
+
+void autoIncremental(char* path)
+{
+	FILE* pFile;
+	int id=0;
+
+		if(path!=NULL)
+		{
+			pFile=fopen(path,"w");
+			id+=1;
+			fprintf(pFile,"%n",&id);
+		}
+		fclose(pFile);
+}
+
+void Mostrar_UnEmpleado(Employee* auxEmpleado)
+{
+    int auxId;
+    char auxNombre[128];
+    int auxSueldo;
+    int auxHorasT;
+    employee_getNombre(auxEmpleado,auxNombre);
+    employee_getId(auxEmpleado,&auxId);
+	employee_getSueldo(auxEmpleado,&auxSueldo);
+	employee_getHorasTrabajadas(auxEmpleado,&auxHorasT);
+    printf("| %-4d  | %-16s  | %-4d  | $%d  |\n",auxId,auxNombre,auxHorasT,auxSueldo);
+}

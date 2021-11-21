@@ -1,0 +1,84 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "LinkedList.h"
+#include "Employee.h"
+
+/** \brief Parsea los datos los datos de los empleados desde el archivo data.csv (modo texto).
+ *
+ * \param path char*
+ * \param pArrayListEmployee LinkedList*
+ * \return int
+ *
+ */
+int parser_EmployeeFromText(FILE *pFile, LinkedList *pArrayListEmployee)
+{
+	int retorno=-1;
+
+	char* id=(char*)malloc(sizeof (char)*250);
+	char* nombre=(char*)malloc(sizeof (char)*250);
+	char* horas=(char*)malloc(sizeof (char)*250);
+	char* sueldo=(char*)malloc(sizeof (char)*250);
+
+	Employee* auxEmpleado;
+
+	if (pFile != NULL && pArrayListEmployee != NULL)
+	{
+		fscanf(pFile, "%[^,],%[^,],%[^,],%[^\n]\n", id, nombre, horas, sueldo);
+
+			while (!feof(pFile))
+			{
+				auxEmpleado=employee_new();
+
+				if(fscanf(pFile, "%[^,],%[^,],%[^,],%[^\n]\n", id, nombre, horas, sueldo)==4)
+				{
+					printf("%s %s %s %s\n", id, nombre, horas, sueldo);
+
+					auxEmpleado=employee_newParametros(id, nombre, horas, sueldo);
+
+						Mostrar_UnEmpleado(auxEmpleado);
+						if(ll_add(pArrayListEmployee, auxEmpleado)!=-1)
+						{
+							free(auxEmpleado);
+							retorno=0;
+						}
+				}
+			}
+
+	}
+
+	return retorno;
+}
+
+
+
+
+/** \brief Parsea los datos los datos de los empleados desde el archivo data.csv (modo binario).
+ *
+ * \param path char*
+ * \param pArrayListEmployee LinkedList*
+ * \return int
+ *
+ */
+
+	/*
+int parser_EmployeeFromBinary(FILE *pFile, LinkedList *pArrayListEmployee) {
+	int retorno = -1;
+	pFile = fopen("data.dat", "rb");
+	Employee *auxEmpleado;
+
+	if (pFile != NULL && pArrayListEmployee != NULL)
+	{
+
+		while (!feof(pFile)) {
+			auxEmpleado = employee_new();
+			if (auxEmpleado != NULL) {
+				if (fread(&auxEmpleado, sizeof(Employee), 1, pFile) == 1) {
+					ll_add(pArrayListEmployee, auxEmpleado);
+					free(auxEmpleado);
+					retorno=0;
+				}
+			}
+		}
+	}
+	return retorno;
+}*/
