@@ -123,7 +123,7 @@ int registerEmployee(Employee list[], int len, int id){
 
 	if(addEmployee(list, len, id, name, lastName,salary,sector)!=0)
 	{
-		printf("\n La alta de un empleado ha sido exitosa \n");
+		printf("\n El alta de un empleado ha sido exitosa \n");
 
 		ret = 1;
 
@@ -132,10 +132,6 @@ int registerEmployee(Employee list[], int len, int id){
 	return ret;
 }
 
-int autoIncremental(int idAuto){
-	idAuto+=1;
-	return idAuto;
-}
 
 
 
@@ -175,23 +171,23 @@ void showEmployee(Employee oneEmployee) {
 
 }
 
-void showEmployeeList(Employee list[], int tam) {
+void showEmployeeList(Employee list[], int len) {
 
-	if (list != NULL && tam > 0) {
-		for (int i = 0; i < tam; i++) {
+	if (list != NULL && len > 0) {
+		for (int i = 0; i < len; i++) {
 			if (list[i].isEmpty == FULL) {
 				showEmployee(list[i]);
 			}
 		}
 	}
 }
-int modifyEmployee(Employee list[], int tam, int IdEmployee) {
+int modifyEmployee(Employee list[], int len, int IdEmployee) {
 	int retorno = 0;
 	int modificar;
 
-	showEmployeeList(list, tam);
+	showEmployeeList(list, len);
 
-		modificar = modifyOneEmployee(list, tam, IdEmployee);
+		modificar = modifyOneEmployee(list, len, IdEmployee);
 		if(modificar == 1){
 			printf("\n La modificacion ha sido exitosa \n");
 
@@ -201,7 +197,7 @@ int modifyEmployee(Employee list[], int tam, int IdEmployee) {
 	}
 
 
-int modifyOneEmployee(Employee list[], int tam, int IdEmployee) {
+int modifyOneEmployee(Employee list[], int len, int IdEmployee) {
 int opcion;
 int error = 0;
 int index;
@@ -210,7 +206,7 @@ float auxSalary;
 
 	IdEmployee = getValidInt("\n Ingrese el ID de Empleado a Modificar \n",
 			"\n Error. Ingrese un ID valido \n", 0, 100);
-			index = findEmployeeById(list, tam, IdEmployee);
+			index = findEmployeeById(list, len, IdEmployee);
 			if (index != -1) {
 				printf(
 						"\n Elija: 1- Modificar Direccion. 2- Modificar Localidad. 3- Salir \n");
