@@ -9,13 +9,16 @@
 
 int subMenu(){
 
-	printf("\n Seleccione 1- Alta de Empleado 2- Modificar Empleado 3- Mostrar por Descipcion 4- Informar \n");
 	int option;
 
-	printf("\n Opcion 1 Alta de Pasajero \n");
-	printf("\n Opcion 2 Modificar Pasajero \n");
-	printf("\n Opcion 3 Baja de Pasajero \n");
-	printf("\n Opcion 4 Informar \n");
+	printf("\n\t>-MENU PRINCIPAL-<\t\n");
+	printf("-----------------------------------------\n");
+	printf("Opcion 1 Alta de Pasajero \n");
+	printf("Opcion 2 Modificar Pasajero \n");
+	printf("Opcion 3 Baja de Pasajero \n");
+	printf("Opcion 4 Informar \n");
+	printf("Opcion 9 Carga Forazada \n");
+	printf("Opcion 10 Salir \n")
 	scanf("%d", &option);
 
 	return option;
@@ -24,23 +27,25 @@ int subMenu(){
 
 int subMenu2(){
 
-	printf("\n Seleccione | 5- Listar empleados alfabeticamente Apellido y Sector | 6- Total y Promedio de los Salarios | 7- Listar pasajeros por Codigo de Vuelo Activos | 8- Salir \n");
 	int option;
 
+	printf("\n\t>-MENU INFORMES-<\t\n");
+	printf("-----------------------------------------\n");
 	printf("\n Opcion 5 Informar Listado de pasajeros Alfabeticamente Apellido y Tipo de Pasajero \n");
 	printf("\n Opcion 6 Total y Promedio de los Pasajes. Cuantos lo superan \n");
 	printf("\n Opcion 7 Informar Listado de pasajeros por Codigo de Vuelo Activos \n");
 	printf("\n Opcion 8 Salir\n");
 	scanf("%d", &option);
-
+	opcion=getValidInt("Ingrese una Opcion 5 - 8 \n", "Error Ingrese una opcion 5 - 8 \n", 5, 8);
 	return option;
 
 }
 
 int subMenu_Modify(){
-	printf("\n Seleccione | 1- Modificar Nombre | 2- Modificar Apellido | 3- Salir \n");
-		int option;
 
+		int option;
+		printf("\n\t>-MENU MODIFICACION-<\t\n");
+		printf("-----------------------------------------\n");
 		printf("\n Opcion 1 Modificar Nombre del Pasajero \n");
 		printf("\n Opcion 2 Modificar Apellido del Empleado \n");
 		printf("\n Opcion 3 Modificar Precio \n");
@@ -48,7 +53,7 @@ int subMenu_Modify(){
 		printf("\n Opcion 5 Modificar Codigo de Vuelo \n");
 		printf("\n Opcion 6 Salir \n");
 		scanf("%d", &option);
-
+		opcion=getValidInt("Ingrese una Opcion 1 - 6 \n", "Error Ingrese una opcion 1 - 6 \n", 1, 6);
 		return option;
 }
 
@@ -478,7 +483,7 @@ void print_ActivePassengers(Passenger lista[],int len, ePassage passages[], int 
 }
 
 
-//3. Listado de los pasajeros por Código de vuelo y estados de vuelos ‘ACTIVO’
+//3. Listado de los pasajeros por Cï¿½digo de vuelo y estados de vuelos ï¿½ACTIVOï¿½
 
 int sortPassengers_ByCode(Passenger *list, ePassage passages[], int len, int top, int tams, int order) {
 	int retorno = -1;

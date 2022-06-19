@@ -42,7 +42,7 @@ int main(void) {
 		{
 		case 1:
 
-			printf("\n Usted ha elegido la opcion Nº1: Alta de Empleado \n");
+			printf("\n Usted ha elegido la opcion Nï¿½1: Alta de Pasajero \n");
 			if(addPassenger(list, LEN, &idAuto, name, lastName, price, typePassenger, flycode)==0){
 				printf("Todo ok \n");
 			//flag=1;
@@ -53,7 +53,7 @@ int main(void) {
 				printf("\n No hay empleados disponibles \n ");
 			}else{
 			}*/
-			printf("\n Usted ha elegido la opcion Nº2: Modificacion de Empleado \n");
+			printf("\n Usted ha elegido la opcion Nï¿½2: Modificacion de Pasajero \n");
 			modifyPassenger(list, LEN, passages, TAM, TAMS);
 			break;
 		case 3:
@@ -62,7 +62,7 @@ int main(void) {
 			}else{
 
 			}*/
-			printf("\n Usted ha elegido la opcion Nº3: Eliminar Empleado \n");
+			printf("\n Usted ha elegido la opcion Nï¿½3: Eliminar Pasajero \n");
 			if(removePassenger(list, LEN, idAuto, passages, TAM, TAMS)!=-1){
 				printf("Eliminacion exitosa \n");
 			}else{
@@ -77,7 +77,7 @@ int main(void) {
 				option_Informe=subMenu2();
 				switch(option_Informe){
 				case 5:
-					printf("\n Usted ha elegido la opcion Nº5: Listado de Pasajeros Alfabeticamente Apellido y Sector \n");
+					printf("\n Usted ha elegido la opcion Nï¿½5: Listado de Pasajeros Alfabeticamente Apellido y Sector \n");
 					orden=getValidInt("Ingrese 0 para ordenar descendente || Ingrese 1 para ordenar Ascendente \n", "Error, Ingrese solo 0 descendente || 1 ascendente \n", 0, 1);
 					if(sortEmployees(list, LEN, orden)!=-1){
 						printPassengers(list, LEN, passages, TAM, TAMS);
@@ -86,11 +86,11 @@ int main(void) {
 					}
 					break;
 				case 6:
-					printf("\n Usted ha elegido la opcion Nº6: Total y Promedio de los Pasajes. Cuantos lo superan \n");
+					printf("\n Usted ha elegido la opcion Nï¿½6: Total y Promedio de los Pasajes. Cuantos lo superan \n");
 					informes(list, LEN);
 					break;
 				case 7:
-					printf("\n Usted ha elegido la opcion Nº7: Informar Listado de pasajeros por Codigo de Vuelo Activos \n");
+					printf("\n Usted ha elegido la opcion Nï¿½7: Informar Listado de pasajeros por Codigo de Vuelo Activos \n");
 					orden_Dos=getValidInt("Ingrese 0 para ordenar descendente || Ingrese 1 para ordenar Ascendente \n", "Error, Ingrese solo 0 descendente || 1 ascendente \n", 0, 1);
 					if(sortPassengers_ByCode(list, passages, LEN, TAM, TAMS, orden_Dos)!=-1){
 
@@ -104,7 +104,7 @@ int main(void) {
 			}while(option!=8);
 			break;
 		case 9:
-			printf("\n Usted ha elegido la opcion Nº9: Carga Forzada de Pasajeros \n");
+			printf("\n Usted ha elegido la opcion Nï¿½9: Carga Forzada de Pasajeros \n");
 			if(alta_Forzada(list, LEN, passages, 5, &idAuto, TAM, TAMS)==1){
 				// printPassengers(list, TAM, passages, TAM, TAMS);
 				printf("Todo ok");
