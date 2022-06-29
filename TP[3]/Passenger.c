@@ -14,17 +14,17 @@ int menuTen()
 	printf("-----------------------------------------\n");
 	printf(" Opcion 1 Cargar los datos de los empleados en Modo Texto \n");
 	printf(" Opcion 2 Cargar los datos de los empleados en Modo Binario\n");
-	printf(" Opcion 3 Dar de Alta un empleado \n");
-	printf(" Opcion 4 Modificar un empleado \n");
-	printf(" Opcion 5 Dar de Baja un empleado  \n");
+	printf(" Opcion 3 Dar de Alta un Pasajero \n");
+	printf(" Opcion 4 Modificar un Pasajero \n");
+	printf(" Opcion 5 Dar de Baja un Pasajero  \n");
 	printf(" Opcion 6 Listar empleados \n");
 	printf(" Opcion 7 Ordenar empleados \n");
-	printf(" Opcion 8 Guardar los datos de los empleados en Modo Texto \n");
-	printf(" Opcion 9 Guardar los datos de los empleados en Modo Binario \n");
+	printf(" Opcion 8 Guardar los datos de los Pasajero en Modo Texto \n");
+	printf(" Opcion 9 Guardar los datos de los Pasajero en Modo Binario \n");
 	printf(" Opcion 10 Salir \n\n");
 
 	scanf("%d", &opcion);
-	opcion=getValidInt("Ingrese una Opcion 1 - 10", "Error Ingrese una opcion 1 - 10", 1, 10);
+
 	return opcion;
 }
 
@@ -42,7 +42,6 @@ int subMenu_One()
 	printf("\n Opcion 7  Salir \n");
 
 	scanf("%d", &opcion);
-	opcion=getValidInt("Ingrese una Opcion 1 - 7", "Error Ingrese una opcion 1 - 7", 1, 7);
 	return opcion;
 }
 
@@ -61,9 +60,7 @@ int Passenger_MenuOrden()
 	printf("7. Ordenar por Estado de Vuelo \n");
 	printf("8. Mostrar Listado \n");
 	printf("9. Salir\n");
-
-	opcion=getValidInt("Ingrese una Opcion 1 - 9", "Error Ingrese una opcion 1 - 9", 1, 9);
-
+	scanf("%d",&opcion);
 	return opcion;
 }
 
@@ -127,12 +124,14 @@ int Passenger_setFields(Passenger* aPassenger, int auxId, char* auxNombre, char*
 	int tipo=Passenger_setTipoPasajero(aPassenger, auxTipo);
 	int estVuelo=Passenger_setEstadoVuelo(aPassenger, auxEstadoVuelo);
 
+
 	if(aPassenger != NULL)
 	{
 		if(id==0&& nombre==0&& apellido==0&& precio==0&& codigoV==0&& tipo==0&& estVuelo==0)
 		{
 			retorno=0;
 		}else{
+			printf("%d %d %d %d %d %d %d", id, nombre, apellido, precio, codigoV, tipo, estVuelo);
 			printf("Error al asignar los datos \n");
 		}
 	}
@@ -172,7 +171,7 @@ int Passenger_setApellido(Passenger *this, char *apellido) {
 	int retorno = -1;
 
 	if (this != NULL && apellido != NULL) {
-		if (strlen(apellido) < 50 && strlen(apellido) > 2) {
+		if (strlen(apellido) < 50 && strlen(apellido) > 1) {
 
 			strcpy(this->apellido, apellido);
 			retorno = 0;
@@ -196,7 +195,7 @@ int Passenger_setPrecio(Passenger* this, float precio){
 int Passenger_setTipoPasajero(Passenger *this, int tipoPasajero) {
 	int retorno = -1;
 	if (this != NULL) {
-		if (tipoPasajero < 4 && tipoPasajero > 0) {
+		if (tipoPasajero <= 3 && tipoPasajero >= 1) {
 			this->tipoPasajero = tipoPasajero;
 			retorno = 0;
 		}
@@ -308,7 +307,8 @@ int Passenger_getdescripcionTipoPasajero(int tipoPasajero , char* descripcionTip
 {
 	int retorno=-1;
 
-	if(tipoPasajero<4 &&  tipoPasajero>0 && descripcionTipo!=NULL)
+	if(tipoPasajero<=3 &&  tipoPasajero>=1 && descripcionTipo!=NULL)
+
 	{
 		if(tipoPasajero==1)
 		{
@@ -328,7 +328,7 @@ int Passenger_getdescripcionTipoPasajero(int tipoPasajero , char* descripcionTip
 	return retorno;
 }
 
-int Passenger_getdescripcionEstadoVuelo(int estadoVuelo , char* descripcionE_Vuelo)
+int Movies_getdescripcionGenero(int estadoVuelo , char* descripcionE_Vuelo)
 {
 	int retorno=-1;
 
@@ -375,7 +375,7 @@ void Passenger_mostrarUnPasajero(Passenger* pasajero) {
 			&& Passenger_getdescripcionTipoPasajero(tipoPasajero,
 					descripcion_TipoPasajero)==0
 			&& Passenger_getEstadoVuelo(pasajero, &estadoVuelo)==0
-			&& Passenger_getdescripcionEstadoVuelo(estadoVuelo,
+			&& Movies_getdescripcionGenero(estadoVuelo,
 					descripcion_EstadoVuelo)==0) {
 		printf(
 				"| %-5d |  %-12s|  %-12s|  $%-8.2f |       %-10s    |    %-15s   |      %-13s  |\n",
@@ -397,65 +397,90 @@ int obtenerId(char* path, int* id)
 	{
 		pFile=fopen(path,"r");
 		fscanf(pFile,"%d",id);
+
 		retorno=1;
 	}
 	fclose(pFile);
 	return retorno;
 }
 
-void autoIncremental(char* path)
+void autoIncremental(int* id)
 {
-	FILE* pFile;
-	int id=0;
+	FILE* pFile=fopen("last_id.txt","w");
+	int auxId;
 
-		if(path!=NULL)
+	if(pFile!=NULL)
 		{
-			pFile=fopen(path,"w");
-			id+=1;
-			fprintf(pFile,"%n",&id);
+		auxId=*id;
+		auxId+=1;
+		fprintf(pFile,"%d \n",auxId);
+
 		}
 		fclose(pFile);
 }
 
-int addPassenger(Passenger* pPassenger,int id) {
+int addPassenger(LinkedList *pArrayListPassenger, int *id) {
 
-	int retorno =-1;
+	int retorno = -1;
 	char nombre[50];
 	char apellido[50];
 	float precio;
-	int tipoPasajero=0;
+	int tipoPasajero = 0;
 	char codigoVuelo[10];
-	int estadoDeVuelo=2;
+	int estadoDeVuelo;
+	int auxId;
+	Passenger *pPassenger = NULL;
 
-
-			if (getStringSoloLetras("\n Ingrese el nombre del Pasajero \n","\n Error, intente nuevamente ingresando SOLO letras. \n",nombre,50,2) != 1) {
-				printf("\n Error, intente nuevamente ingresando SOLO letras. \n");
+	if (pArrayListPassenger != NULL && id != NULL) {
+		pPassenger = Passenger_new();
+		if (pPassenger != NULL) {
+			if (getStringSoloLetras("\n Ingrese el nombre del Pasajero \n",
+					"\n Error, intente nuevamente ingresando SOLO letras. \n",
+					nombre, 50, 2) != 1) {
+				printf(
+						"\n Error, intente nuevamente ingresando SOLO letras. \n");
 			}
-			if (getStringSoloLetras("\n Ingrese el Apellido del Pasajero \n","\n Error, intente nuevamente ingresando SOLO letras. \n",apellido,50,2) != 1) {
-						printf("\n Error, intente nuevamente ingresando SOLO letras. \n");
-					}
-			if(getStringAlfaNumerico("\n Ingrese el Codigo de Vuelo del Pasajero \n","\n Error, intente nuevamente ingresando SOLO letras y numeros. \n" , codigoVuelo, 10, 2)!=1) {
-				printf("\n Error, intente nuevamente ingresando SOLO letras y Numeros. \n");
+			if (getStringSoloLetras("\n Ingrese el Apellido del Pasajero \n",
+					"\n Error, intente nuevamente ingresando SOLO letras. \n",
+					apellido, 50, 2) != 1) {
+				printf(
+						"\n Error, intente nuevamente ingresando SOLO letras. \n");
+			}
+			if (getStringAlfaNumerico(
+					"\n Ingrese el Codigo de Vuelo del Pasajero \n",
+					"\n Error, intente nuevamente ingresando SOLO letras y numeros. \n",
+					codigoVuelo, 10, 2) != 1) {
+				printf(
+						"\n Error, intente nuevamente ingresando SOLO letras y Numeros. \n");
 			}
 
-			chargeSalary(&precio, "\n Inrese el Precio \n", "\n Error, cargue el Precio nuevamente \n");
+			chargeSalary(&precio, "\n Ingrese el Precio \n",
+					"\n Error, cargue el Precio nuevamente \n");
 
-			getValidInt("Ingrese el Tipo de Pasajero: 1- First Class 2- Executive Class 3- Economy Class \n", "Error Ingrese SOLO: 1- First Class 2- Executive Class 3- Economy Class\n", 1, 4);
+			tipoPasajero =
+					getValidInt(
+							"Ingrese el Tipo de Pasajero: 1- First Class 2- Executive Class 3- Economy Class \n",
+							"Error Ingrese SOLO: 1- First Class 2- Executive Class 3- Economy Class\n",
+							1, 4);
 
-
-
-			if(Passenger_setFields(pPassenger, id, nombre, apellido, precio, codigoVuelo, tipoPasajero, estadoDeVuelo)!=-1)
-			{
+			estadoDeVuelo = 2;
+			auxId = *id;
+			auxId += 1;
+			if (Passenger_setFields(pPassenger, auxId, nombre, apellido, precio,
+					codigoVuelo, tipoPasajero, estadoDeVuelo) != -1) {
+				ll_add(pArrayListPassenger, pPassenger);
 				Passenger_mostrarUnPasajero(pPassenger);
-				retorno=0;
-			}else{
+				retorno = 0;
+			} else {
 				Passenger_mostrarUnPasajero(pPassenger);
 				printf(" Error en el set \n");
 			}
+		}
 
+	}
 
 	return retorno;
-	}
+}
 
 int buscar_PasajeroPorId(LinkedList *pArrayListPassenger, int *id) {
 	int retorno = -1;
@@ -501,8 +526,8 @@ int modificar_Pasajero(LinkedList *pArrayListPassenger, int *id) {
 		tamList = ll_len(pArrayListPassenger);
 		for (i = 0; i < tamList; i++) {
 			index=buscar_PasajeroPorId(pArrayListPassenger, id);
-				if (index != -1) {
 					auxPassenger= (Passenger*) ll_get(pArrayListPassenger, index);
+				if (index != -1 && auxPassenger!=NULL) {
 					do {
 						opcion = subMenu_One();
 						switch (opcion) {
@@ -519,7 +544,7 @@ int modificar_Pasajero(LinkedList *pArrayListPassenger, int *id) {
 										"\n La carga del NUEVO nombre ha sido un exito \n");
 								Passenger_setNombre(auxPassenger, nombre);
 								Passenger_mostrarUnPasajero(auxPassenger);
-								retorno = 1;
+								//retorno = 1;
 
 							}
 							break;
@@ -535,7 +560,7 @@ int modificar_Pasajero(LinkedList *pArrayListPassenger, int *id) {
 									"\n La carga del NUEVO Apellido ha sido un exito \n");
 							Passenger_setApellido(auxPassenger, nombre);
 							Passenger_mostrarUnPasajero(auxPassenger);
-							retorno = 1;
+							//retorno = 1;
 
 						}
 
@@ -549,7 +574,7 @@ int modificar_Pasajero(LinkedList *pArrayListPassenger, int *id) {
 							if (precio > 0) {
 								Passenger_setPrecio(auxPassenger, precio);
 								Passenger_mostrarUnPasajero(auxPassenger);
-								retorno = 1;
+								//retorno = 1;
 							}
 							break;
 						case 4:
@@ -563,7 +588,7 @@ int modificar_Pasajero(LinkedList *pArrayListPassenger, int *id) {
 						if (tipoPasajero >= 0) {
 							Passenger_setTipoPasajero(auxPassenger, tipoPasajero);
 							Passenger_mostrarUnPasajero(auxPassenger);
-							retorno = 1;
+							//retorno = 1;
 						}
 							break;
 						case 5:
@@ -578,7 +603,7 @@ int modificar_Pasajero(LinkedList *pArrayListPassenger, int *id) {
 									"\n La carga del NUEVO Codigo de Vuelo ha sido un exito \n");
 							Passenger_setCodigoVuelo(auxPassenger, codigoVuelo);
 							Passenger_mostrarUnPasajero(auxPassenger);
-							retorno = 1;
+							//retorno = 1;
 
 						}
 							break;
@@ -586,20 +611,19 @@ int modificar_Pasajero(LinkedList *pArrayListPassenger, int *id) {
 						printf(
 								"\n Usted ha seleccionado 2: Modificar el Estado de Vuelo \n");
 						estadoDeVuelo =
-								getValidInt(
-										"\n Ingrese el Nuevo Estado de Vuelo : 1- Aterrizado 2- En Horario 3- En Vuelo 4- Demorado\n",
+								getValidInt("\n Ingrese el Nuevo Estado de Vuelo : 1- Aterrizado 2- En Horario 3- En Vuelo 4- Demorado\n",
 										"\n ERROR. Ingrese el Nuevo Estado de Vuelo :  1- Aterrizado 2- En Horario 3- En Vuelo 4- Demorado \n",
 										1, 4);
 						if (estadoDeVuelo > 0) {
 						Passenger_setEstadoVuelo(auxPassenger, estadoDeVuelo);
 						Passenger_mostrarUnPasajero(auxPassenger);
-							retorno = 1;
+							//retorno = 1;
 						}
 							break;
 						case 7:
 							printf("Menu Principal \n");
+							retorno=1;
 							break;
-
 						}
 					} while (opcion != 7);
 				}
@@ -775,8 +799,8 @@ int Passenger_CompararEstadoDeVuelo(void *passenger1, void *passenger2) {
 		passengerDos = (Passenger*) passenger2;
 
 		if ((!Passenger_getEstadoVuelo(passenger, &estado1)) && (!Passenger_getEstadoVuelo(passengerDos, &estado2))) {
-			if ((!Passenger_getdescripcionEstadoVuelo(estado1, descripcionEstado)) &&
-					(!Passenger_getdescripcionEstadoVuelo(estado2, descripcionEstado2))) {
+			if ((!Movies_getdescripcionGenero(estado1, descripcionEstado)) &&
+					(!Movies_getdescripcionGenero(estado2, descripcionEstado2))) {
 				resultado = strcmp(descripcionEstado, descripcionEstado2);
 
 			}
@@ -785,3 +809,5 @@ int Passenger_CompararEstadoDeVuelo(void *passenger1, void *passenger2) {
 
 	return resultado;
 }
+
+

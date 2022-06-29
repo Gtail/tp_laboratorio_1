@@ -25,7 +25,6 @@ int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger)
 		char* statusFlight=(char*)malloc(sizeof (char)*256);
 
 		fid=fopen("last_id.txt","w");
-	//	int cantLeido=0;
 
 		Passenger* auxPassenger;
 
@@ -35,8 +34,8 @@ int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger)
 
 				while (!feof(pFile))
 				{
-						auxPassenger=Passenger_new();
 
+						auxPassenger=Passenger_new();
 						if(fscanf(pFile,"%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]\n", id, nombre, apellido, precio, codigoDeVuelo,tipoPasajero,statusFlight)==7)
 						{
 							auxPassenger=Passenger_newParametros(id, nombre, apellido, precio, codigoDeVuelo, tipoPasajero, statusFlight);
@@ -49,6 +48,9 @@ int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger)
 									contPassenger+=1;
 									retorno=0;
 
+								}
+								else{
+									Passenger_delete(auxPassenger);
 								}
 						}
 

@@ -3,6 +3,28 @@
 #include "LinkedList.h"
 #include "Passenger.h"
 #include "parser.h"
+/** \brief Listar pasajeros
+ *
+ * \param path char*
+ * \param pArrayListPassenger LinkedList*
+ * \return int
+ *
+ */
+int controller_ListPassenger(LinkedList *pArrayListPassenger) {
+	int retorno = -1;
+	int tamList;
+	int i;
+	Passenger *auxPassenger;
+	if (pArrayListPassenger != NULL) {
+		tamList = ll_len(pArrayListPassenger);
+		for (i = 0; i < tamList; i++) {
+			auxPassenger = (Passenger*) ll_get(pArrayListPassenger, i);
+			Passenger_mostrarUnPasajero(auxPassenger);
+			retorno = 1;
+		}
+	}
+	return retorno;
+}
 
 
 
@@ -13,19 +35,20 @@
  * \return int
  *
  */
-int controller_loadFromText(char* path , LinkedList* pArrayListPassenger)
-{
-	FILE* pFile;
+int controller_loadFromText(char *path, LinkedList *pArrayListPassenger) {
+	FILE *pFile;
 	int retorno;
-	pFile=fopen(path,"r");
-	if(pFile!=NULL && pArrayListPassenger!=NULL){
-		ll_clear(pArrayListPassenger);
-		if(parser_PassengerFromText(pFile, pArrayListPassenger)!=-1){
-			retorno=0;
+	if (path != NULL && pArrayListPassenger != NULL) {
+		pFile = fopen(path, "r");
+		//ll_clear(pArrayListPassenger);
+		if (pFile != NULL) {
+			if (parser_PassengerFromText(pFile, pArrayListPassenger) != -1) {
+				retorno = 0;
+			}
 		}
-
+		fclose(pFile);
 	}
-    return retorno;
+	return retorno;
 }
 
 /** \brief Carga los datos de los pasajeros desde el archivo data.csv (modo binario).
@@ -68,15 +91,16 @@ int controller_addPassenger(LinkedList* pArrayListPassenger)
 {
 	int retorno = -1;
 		//int contId=0;
-		Passenger *auxEmployee=Passenger_new();
+
 		int id;
 
 		if (obtenerId("last_id.txt", &id) == 1) {
 			printf("ID obtenido \n");
+			printf("id %d \n", id);
 			if (pArrayListPassenger != NULL) {
-				printf("no dio NULL LA LISTA \n");
-				if (addPassenger(auxEmployee, id) == 0) {
-					autoIncremental("last_id.txt");
+
+				if (addPassenger(pArrayListPassenger, &id) == 0) {
+					autoIncremental(&id);
 					retorno = 0;
 				}
 			}
@@ -95,8 +119,8 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 {
 	int retorno = -1;
 	int id;
-	if (pArrayListPassenger != NULL) {
 		controller_ListPassenger(pArrayListPassenger);
+	if (pArrayListPassenger != NULL) {
 		id = getValidInt("\n Ingrese el ID del Pasajero a Modificar \n",
 				"\n Error, intente nuevamente ingresando SOLO numeros. \n", 0,
 				5000);
@@ -153,28 +177,6 @@ int controller_removePassenger(LinkedList *pArrayListPassenger) {
 	return retorno;
 }
 
-/** \brief Listar pasajeros
- *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
- *
- */
-int controller_ListPassenger(LinkedList *pArrayListPassenger) {
-	int retorno = -1;
-	int tamList;
-	int i;
-	Passenger *auxPassenger;
-	if (pArrayListPassenger != NULL) {
-		tamList = ll_len(pArrayListPassenger);
-		for (i = 0; i < tamList; i++) {
-			auxPassenger = (Passenger*) ll_get(pArrayListPassenger, i);
-			Passenger_mostrarUnPasajero(auxPassenger);
-			retorno = 1;
-		}
-	}
-	return retorno;
-}
 
 /** \brief Ordenar pasajeros
  *
@@ -332,17 +334,21 @@ int controller_saveAsText(char* path , LinkedList* pArrayListPassenger)
 			fprintf(pFile, "id,name,lastname,price,flycode,typePassenger,statusFlight \n");
 			for (i = 0; i < tamList; i++) {
 				auxPassenger = (Passenger*) ll_get(pArrayListPassenger, i);
-				Passenger_getId(auxPassenger, &auxId);
-				Passenger_getNombre(auxPassenger, auxNombre);
-				Passenger_getApellido(auxPassenger, auxApellido);
-				Passenger_getPrecio(auxPassenger, &auxPrecio);
-				Passenger_getCodigoVuelo(auxPassenger, codigoVuelo);
-				Passenger_getTipoPasajero(auxPassenger, &tipoPasajero);
-				Passenger_getEstadoVuelo(auxPassenger, &estadoVuelo);
+				if(!(Passenger_getId(auxPassenger, &auxId)&&
+				Passenger_getNombre(auxPassenger, auxNombre)&&
+				Passenger_getApellido(auxPassenger, auxApellido)&&
+				Passenger_getPrecio(auxPassenger, &auxPrecio)&&
+				Passenger_getCodigoVuelo(auxPassenger, codigoVuelo)&&
+				Passenger_getTipoPasajero(auxPassenger, &tipoPasajero)&&
+				Passenger_getEstadoVuelo(auxPassenger, &estadoVuelo))){
 
 				fscanf(pFile,"%d,%s,%s,%f,%s,%d,%d\n", &auxId, auxNombre, auxApellido, &auxPrecio, codigoVuelo,&tipoPasajero,&estadoVuelo);
 
 				retorno = 1;
+				}else{
+					printf("No se pudo guardar como txt \n");
+				}
+
 
 			}
 		}

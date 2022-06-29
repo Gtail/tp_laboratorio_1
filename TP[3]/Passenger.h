@@ -55,12 +55,12 @@ int Passenger_getEstadoVuelo(Passenger* this, int* estadoVuelo);
 //Herramientas
 void Passenger_mostrarUnPasajero(Passenger* pasajero);
 int obtenerId(char* path, int* id);
-void autoIncremental(char* path);
+void autoIncremental(int* id);
 
 int buscar_PasajeroPorId(LinkedList *pArrayListPassenger, int *id);
 
 // ABM
-int addPassenger(Passenger* pPassenger,int id);
+int addPassenger(LinkedList* pArrayListPassenger,int* id);
 int modificar_Pasajero(LinkedList *pArrayListPassenger, int *id);
 
 //Menus

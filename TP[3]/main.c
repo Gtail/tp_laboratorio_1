@@ -25,7 +25,9 @@
 int main() {
 	setbuf(stdout, NULL);
 	int option;
-
+	int flagSaveTxt=0;
+	int flagSaveBin=0;
+	int flagCarga=0;
 	LinkedList *listaPasajeros = ll_newLinkedList(); //me crea una linked list de pasajeros
 	// me consigue memoria para un ll y me devuelve el puntero a esa linkedlist, es un constructor normal
 	//
@@ -37,9 +39,15 @@ int main() {
 			option = menuTen();
 			switch (option) {
 			case 1:
+				if(ll_isEmpty(listaPasajeros) && flagCarga==0){
 				printf(
 						"\n Usted ha seleccionado 1: Cargar Pasajeros Modo Texto \n");
-				controller_loadFromText("data.csv", listaPasajeros);
+				if(controller_loadFromText("data.csv", listaPasajeros)==0){
+					printf(" Carga txt exitosa \n");
+				}
+				}else{
+					printf("No se puede cargar la lista dos veces \n");
+				}
 				break;
 			case 2:
 				printf(
