@@ -25,8 +25,6 @@
 int main() {
 	setbuf(stdout, NULL);
 	int option;
-	int flagSaveTxt=0;
-	int flagSaveBin=0;
 	int flagCarga=0;
 	LinkedList *listaPasajeros = ll_newLinkedList(); //me crea una linked list de pasajeros
 	// me consigue memoria para un ll y me devuelve el puntero a esa linkedlist, es un constructor normal
