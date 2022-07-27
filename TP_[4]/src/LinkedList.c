@@ -49,23 +49,21 @@ int ll_len(LinkedList* this)
                         (pNode) Si funciono correctamente
  *
  */
-static Node* getNode(LinkedList* this, int nodeIndex)
-{
+static Node* getNode(LinkedList *this, int nodeIndex) {
 	int tam;
 	int i;
-	Node* auxNode=NULL; //aca guardo el nodo encontrado en caso de obtenerlo
+	Node *auxNode = NULL; //aca guardo el nodo encontrado en caso de obtenerlo
 
-	if(this!=NULL)
-	{
-	tam=ll_len(this);
-	if(nodeIndex<tam && nodeIndex>=0){
-		auxNode=this->pFirstNode;//aca debo agregar la direccion del primer nodo
-		for(i=0;i<nodeIndex;i++){
-			auxNode=auxNode->pNextNode; //contiene la primera direccion
+	if (this != NULL) {
+		tam = ll_len(this);
+		if (nodeIndex < tam && nodeIndex >= 0) {
+			auxNode = this->pFirstNode; //aca debo agregar la direccion del primer nodo
+			for (i = 0; i < nodeIndex; i++) {
+				auxNode = auxNode->pNextNode; //contiene la primera direccion
+			}
 		}
 	}
-	}
-    return auxNode;
+	return auxNode;
 }
 
 /** \brief  Permite realizar el test de la funcion getNode la cual es privada
@@ -240,7 +238,7 @@ int ll_remove(LinkedList *this, int index) {
 		if (removed_Node != NULL && index >= 0 && index < tam) {
 			if (index == 0) {
 				this->pFirstNode = removed_Node->pNextNode;
-				;
+
 			} else {
 				prevNode = getNode(this, index - 1);
 				if (prevNode != NULL) {
@@ -561,3 +559,22 @@ int ll_sort(LinkedList *this, int (*pFunc)(void*, void*), int order) {
 
 }
 
+LinkedList* ll_filter(LinkedList *this, int (*pFunc)(void*)) {
+	LinkedList *filterList = NULL;
+	int tamList;
+	void *pElement=NULL;
+	int i;
+	if (this != NULL && pFunc != NULL) {
+		filterList = ll_newLinkedList();
+		if (filterList != NULL) {
+			tamList = ll_len(this);
+			for (i = 0; i < tamList; i++) {
+				pElement=ll_get(this, i);
+				if (pFunc(pElement)) {
+					ll_add(filterList, pElement);
+				}
+			}
+		}
+	}
+	return filterList;
+}
